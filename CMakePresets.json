@@ -1,0 +1,269 @@
+﻿{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "windows-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "x64-debug",
+            "displayName": "x64 Debug",
+            "inherits": "windows-base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "x64-release",
+            "displayName": "x64 Release",
+            "inherits": "x64-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "x86-debug",
+            "displayName": "x86 Debug",
+            "inherits": "windows-base",
+            "architecture": {
+                "value": "x86",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "x86-release",
+            "displayName": "x86 Release",
+            "inherits": "x86-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "linux-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+                }
+            }
+        },
+        {
+            "name": "wsl-gcc-debug",
+            "displayName": "WSL GCC Debug",
+            "inherits": "linux-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "wsl-gcc-release",
+            "displayName": "WSL GCC Release",
+            "inherits": "wsl-gcc-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "wsl-clang-debug",
+            "displayName": "WSL Clang Debug",
+            "inherits": "linux-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "wsl-clang-release",
+            "displayName": "WSL Clang Release",
+            "inherits": "wsl-clang-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "wsl-multi-base",
+            "hidden": true,
+            "inherits": "linux-base",
+            "description": "TEMPLATE: copy a wsl-<compiler>-<ver> preset + its 2 build presets, change the version number. One configure preset per compiler, Debug/Release chosen by the build preset.",
+            "generator": "Ninja Multi-Config"
+        },
+        {
+            "name": "wsl-gcc-11",
+            "displayName": "WSL GCC 11",
+            "inherits": "wsl-multi-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc-11",
+                "CMAKE_CXX_COMPILER": "g++-11"
+            }
+        },
+        {
+            "name": "wsl-gcc-12",
+            "displayName": "WSL GCC 12",
+            "inherits": "wsl-multi-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc-12",
+                "CMAKE_CXX_COMPILER": "g++-12"
+            }
+        },
+        {
+            "name": "wsl-gcc-13",
+            "displayName": "WSL GCC 13",
+            "inherits": "wsl-multi-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc-13",
+                "CMAKE_CXX_COMPILER": "g++-13"
+            }
+        },
+        {
+            "name": "wsl-clang-14",
+            "displayName": "WSL Clang 14",
+            "inherits": "wsl-multi-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang-14",
+                "CMAKE_CXX_COMPILER": "clang++-14"
+            }
+        },
+        {
+            "name": "wsl-clang-15",
+            "displayName": "WSL Clang 15",
+            "inherits": "wsl-multi-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang-15",
+                "CMAKE_CXX_COMPILER": "clang++-15"
+            }
+        },
+        {
+            "name": "wsl-clang-16",
+            "displayName": "WSL Clang 16",
+            "inherits": "wsl-multi-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang-16",
+                "CMAKE_CXX_COMPILER": "clang++-16"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "x64-debug",
+            "configurePreset": "x64-debug"
+        },
+        {
+            "name": "x64-release",
+            "configurePreset": "x64-release"
+        },
+        {
+            "name": "x86-debug",
+            "configurePreset": "x86-debug"
+        },
+        {
+            "name": "x86-release",
+            "configurePreset": "x86-release"
+        },
+        {
+            "name": "wsl-gcc-debug",
+            "configurePreset": "wsl-gcc-debug"
+        },
+        {
+            "name": "wsl-gcc-release",
+            "configurePreset": "wsl-gcc-release"
+        },
+        {
+            "name": "wsl-clang-debug",
+            "configurePreset": "wsl-clang-debug"
+        },
+        {
+            "name": "wsl-clang-release",
+            "configurePreset": "wsl-clang-release"
+        },
+        {
+            "name": "wsl-gcc-11-debug",
+            "configurePreset": "wsl-gcc-11",
+            "configuration": "Debug"
+        },
+        {
+            "name": "wsl-gcc-11-release",
+            "configurePreset": "wsl-gcc-11",
+            "configuration": "Release"
+        },
+        {
+            "name": "wsl-gcc-12-debug",
+            "configurePreset": "wsl-gcc-12",
+            "configuration": "Debug"
+        },
+        {
+            "name": "wsl-gcc-12-release",
+            "configurePreset": "wsl-gcc-12",
+            "configuration": "Release"
+        },
+        {
+            "name": "wsl-gcc-13-debug",
+            "configurePreset": "wsl-gcc-13",
+            "configuration": "Debug"
+        },
+        {
+            "name": "wsl-gcc-13-release",
+            "configurePreset": "wsl-gcc-13",
+            "configuration": "Release"
+        },
+        {
+            "name": "wsl-clang-14-debug",
+            "configurePreset": "wsl-clang-14",
+            "configuration": "Debug"
+        },
+        {
+            "name": "wsl-clang-14-release",
+            "configurePreset": "wsl-clang-14",
+            "configuration": "Release"
+        },
+        {
+            "name": "wsl-clang-15-debug",
+            "configurePreset": "wsl-clang-15",
+            "configuration": "Debug"
+        },
+        {
+            "name": "wsl-clang-15-release",
+            "configurePreset": "wsl-clang-15",
+            "configuration": "Release"
+        },
+        {
+            "name": "wsl-clang-16-debug",
+            "configurePreset": "wsl-clang-16",
+            "configuration": "Debug"
+        },
+        {
+            "name": "wsl-clang-16-release",
+            "configurePreset": "wsl-clang-16",
+            "configuration": "Release"
+        }
+    ]
+}
